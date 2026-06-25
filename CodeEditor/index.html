@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Sandbox</title>
+
+    <link
+      id="prism-theme"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-scss.min.js"
+      defer
+    ></script>
+
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/glass.css" />
+  </head>
+  <body data-theme="dark">
+    <header class="header">
+      <h1><span>☳</span>Code<span>Sandbox</span></h1>
+      <div class="header-actions">
+        <div class="settings-wrapper">
+          <button id="settingsBtn" class="btn settings-btn">
+            ⚙️ Настройки
+          </button>
+          <div id="settingsPanel" class="settings-panel" style="display: none">
+            <div class="settings-header"><h3>Настройки</h3></div>
+            <div class="settings-body">
+              <div class="settings-content" id="settingsContent">
+                <div
+                  class="settings-tab-content active"
+                  data-tab-content="theme"
+                >
+                  <div class="settings-section">
+                    <h4 class="section-title">Тема оформления</h4>
+                    <div class="theme-options">
+                      <div class="theme-option-wrapper">
+                        <button class="theme-option" data-theme="light">
+                          ☀️ Светлая <span class="theme-arrow">▸</span>
+                        </button>
+                        <div class="color-palette" data-theme="light">
+                          <button
+                            class="color-swatch"
+                            data-color="#0078D4"
+                            style="background: #0078d4"
+                            title="Синий"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#3a8eee"
+                            style="background: #3a8eee"
+                            title="Голубой"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#8e44ad"
+                            style="background: #8e44ad"
+                            title="Фиолетовый"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#c0392b"
+                            style="background: #c0392b"
+                            title="Красный"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#e67e22"
+                            style="background: #e67e22"
+                            title="Оранжевый"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#27ae60"
+                            style="background: #27ae60"
+                            title="Зелёный"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#f1c40f"
+                            style="background: #f1c40f"
+                            title="Жёлтый"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#e91e63"
+                            style="background: #e91e63"
+                            title="Розовый"
+                          ></button>
+                        </div>
+                      </div>
+                      <div class="theme-option-wrapper">
+                        <button class="theme-option active" data-theme="dark">
+                          🌙 Тёмная <span class="theme-arrow">▸</span>
+                        </button>
+                        <div class="color-palette" data-theme="dark">
+                          <button
+                            class="color-swatch"
+                            data-color="#0078D4"
+                            style="background: #0078d4"
+                            title="Синий"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#3a8eee"
+                            style="background: #3a8eee"
+                            title="Голубой"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#8e44ad"
+                            style="background: #8e44ad"
+                            title="Фиолетовый"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#c0392b"
+                            style="background: #c0392b"
+                            title="Красный"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#e67e22"
+                            style="background: #e67e22"
+                            title="Оранжевый"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#27ae60"
+                            style="background: #27ae60"
+                            title="Зелёный"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#f1c40f"
+                            style="background: #f1c40f"
+                            title="Жёлтый"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#e91e63"
+                            style="background: #e91e63"
+                            title="Розовый"
+                          ></button>
+                        </div>
+                      </div>
+                      <div class="theme-option-wrapper">
+                        <button class="theme-option" data-theme="darker">
+                          ⬛ Очень тёмная <span class="theme-arrow">▸</span>
+                        </button>
+                        <div class="color-palette" data-theme="darker">
+                          <button
+                            class="color-swatch"
+                            data-color="#0078D4"
+                            style="background: #0078d4"
+                            title="Синий"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#3a8eee"
+                            style="background: #3a8eee"
+                            title="Голубой"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#8e44ad"
+                            style="background: #8e44ad"
+                            title="Фиолетовый"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#c0392b"
+                            style="background: #c0392b"
+                            title="Красный"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#e67e22"
+                            style="background: #e67e22"
+                            title="Оранжевый"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#27ae60"
+                            style="background: #27ae60"
+                            title="Зелёный"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#f1c40f"
+                            style="background: #f1c40f"
+                            title="Жёлтый"
+                          ></button>
+                          <button
+                            class="color-swatch"
+                            data-color="#e91e63"
+                            style="background: #e91e63"
+                            title="Розовый"
+                          ></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="settings-tab-content" data-tab-content="effects">
+                  <div class="settings-section">
+                    <h4 class="section-title">Стеклянный эффект</h4>
+                    <div class="effect-options">
+                      <button id="glassToggleBtn" class="effect-option">
+                        🧊 Стеклянный эффект
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="settings-section"
+                    id="animationSection"
+                    style="display: none"
+                  >
+                    <h4 class="section-title">Анимация круга</h4>
+                    <div class="effect-options">
+                      <button id="animateToggleBtn" class="effect-option">
+                        ✨ Анимация круга
+                      </button>
+                    </div>
+                  </div>
+                  <div class="settings-section">
+                    <h4 class="section-title">Размер круга</h4>
+                    <div class="circle-size-control">
+                      <input
+                        type="range"
+                        id="circleSizeSlider"
+                        min="50"
+                        max="150"
+                        step="5"
+                        value="100"
+                      />
+                      <span id="circleSizeValue" class="circle-size-value"
+                        >100%</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="settings-tab-content" data-tab-content="editor">
+                  <div class="settings-section">
+                    <h4 class="section-title">Размер шрифта</h4>
+                    <div class="font-size-control">
+                      <input
+                        type="number"
+                        id="fontSizeInput"
+                        class="font-size-input"
+                        min="10"
+                        max="40"
+                        step="1"
+                        placeholder="14"
+                      />
+                      <span class="font-size-unit">px</span>
+                    </div>
+                  </div>
+                  <div class="settings-section">
+                    <h4 class="section-title">Шрифт редактора</h4>
+                    <div class="font-family-control">
+                      <select id="fontFamilySelect" class="font-select">
+                        <option value="'Consolas', 'Courier New', monospace">
+                          Consolas (по умолчанию)
+                        </option>
+                        <option value="'Cascadia Code', monospace">
+                          Cascadia Code
+                        </option>
+                        <option value="monospace">Monospace</option>
+                      </select>
+                      <div
+                        class="font-upload-zone"
+                        id="fontUploadZone"
+                        title="Перетащите файл шрифта (.ttf, .otf, .woff, .woff2) или кликните для выбора"
+                      >
+                        <span class="font-upload-plus">+</span>
+                      </div>
+                      <input
+                        type="file"
+                        id="fontFileInput"
+                        accept=".ttf,.otf,.woff,.woff2"
+                        style="display: none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="settings-tabs" id="settingsTabs">
+                <button class="settings-tab active" data-tab="theme">
+                  🎨 Тема
+                </button>
+                <button class="settings-tab" data-tab="effects">
+                  ✨ Эффекты
+                </button>
+                <button class="settings-tab" data-tab="editor">
+                  📝 Редактор
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="app" id="appContainer">
+      <div class="editor-panel" id="editorPanel">
+        <div class="panel-tabs" id="tabContainer">
+          <button class="panel-tab active" data-tab="html">
+            HTML <span class="badge">разметка</span>
+          </button>
+          <div class="tab-wrapper">
+            <button class="panel-tab tab-main" data-tab="css">
+              <span class="tab-label">CSS</span>
+              <span class="badge">стили</span>
+            </button>
+            <span
+              class="tab-arrow"
+              id="cssToggleArrow"
+              title="Переключить язык стилей"
+              >▾</span
+            >
+            <div class="tab-dropdown" id="cssLangDropdown">
+              <button class="dropdown-item active" data-lang="css">CSS</button>
+              <button class="dropdown-item" data-lang="scss">SCSS</button>
+            </div>
+          </div>
+          <button class="panel-tab" data-tab="js">
+            JS <span class="badge">логика</span>
+          </button>
+        </div>
+        <div class="editor-wrapper">
+          <div class="line-numbers" id="lineNumbers">1</div>
+          <div class="editor-area" id="editorArea">
+            <div id="highlightLayer"></div>
+            <div id="colorDecorators"></div>
+            <textarea id="codeEditor" spellcheck="false"></textarea>
+            <div
+              id="autocompleteBox"
+              class="autocomplete-box"
+              style="display: none"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="resize-handle" id="resizeHandle">
+        <div class="resize-handle-grip"></div>
+      </div>
+
+      <div class="preview-panel" id="previewPanel">
+        <div class="preview-toolbar">
+          <span class="dot"></span>
+          <span class="preview-label">предпросмотр</span>
+          <div class="url-display">about:blank</div>
+          <button class="btn" id="refreshPreviewBtn">⟳</button>
+        </div>
+        <iframe id="previewFrame" sandbox="allow-scripts"></iframe>
+      </div>
+    </div>
+
+    <div class="status-bar">
+      <span class="status-item"
+        ><span class="key">строки:</span
+        ><span class="value" id="linesCount">1</span></span
+      >
+      <span class="status-item"
+        ><span class="key">символы:</span
+        ><span class="value" id="charsCount">0</span></span
+      >
+      <span class="status-item"
+        ><span class="key">вкладка:</span
+        ><span class="value" id="currentTab">HTML</span></span
+      >
+      <span class="status-item"
+        ><span class="key">тема:</span
+        ><span class="value" id="currentThemeName">тёмная</span></span
+      >
+      <span class="status-item"
+        ><span class="key">статус:</span
+        ><span class="value" id="statusText">● готово</span></span
+      >
+    </div>
+
+    <!-- Шаблон цветовой палитры (кастомный ColorPicker) -->
+    <div id="colorPickerPopup" class="color-picker-popup" style="display: none">
+      <div class="color-picker-body">
+        <!-- Ползунок прозрачности -->
+        <div class="color-picker-alpha">
+          <label>Прозрачность</label>
+          <input type="range" id="alphaSlider" min="0" max="100" value="100" />
+          <span id="alphaValue">100%</span>
+        </div>
+        <!-- Кастомный пикер -->
+        <div class="color-picker-custom">
+          <canvas id="colorCanvas" width="200" height="150"></canvas>
+          <div class="hue-slider-wrapper">
+            <input
+              type="range"
+              id="hueSlider"
+              min="0"
+              max="360"
+              value="0"
+              class="hue-slider"
+            />
+          </div>
+        </div>
+        <!-- Превью текущего цвета -->
+        <div class="color-picker-preview" id="colorPreview"></div>
+      </div>
+    </div>
+
+    <script src="js/config.js" defer></script>
+    <script src="js/storage.js" defer></script>
+    <script src="js/theme.js" defer></script>
+    <script src="js/editor.js" defer></script>
+    <script src="js/preview.js" defer></script>
+    <script src="js/resize.js" defer></script>
+    <script src="js/settings.js" defer></script>
+    <script src="js/main.js" defer></script>
+  </body>
+</html>

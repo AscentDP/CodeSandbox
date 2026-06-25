@@ -1,0 +1,70 @@
+/* ===== БАЗОВЫЕ СБРОСЫ И СТИЛИ ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background: var(--editor-bg);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  color: var(--text-primary);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition:
+    background 0.4s ease,
+    color 0.4s ease;
+}
+
+/* Плавные переходы */
+.header,
+.editor-panel,
+.preview-panel,
+.preview-toolbar,
+.status-bar,
+.panel-tabs,
+.line-numbers,
+.editor-area,
+.settings-panel,
+.btn,
+.theme-option,
+.effect-option,
+.resize-handle,
+.color-palette {
+  transition:
+    background 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease,
+    box-shadow 0.4s ease,
+    backdrop-filter 0.4s ease,
+    -webkit-backdrop-filter 0.4s ease;
+}
+body.glass-mode .editor-panel::before {
+  transition:
+    background 0.4s ease,
+    width 0.3s ease,
+    padding-top 0.3s ease;
+}
+
+/* Скроллбары */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--editor-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #424242;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5a;
+}

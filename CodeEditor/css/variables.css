@@ -1,0 +1,131 @@
+/* ===== ПЕРЕМЕННЫЕ ===== */
+:root {
+  --theme-primary: #3a8eee;
+  --theme-secondary: #4a9eff;
+  --dot-color: #4ecb71;
+  --editor-font-size: 14px;
+  --circle-scale: 1;
+  --editor-bg: #1e1e1e;
+  --panel-bg: #252526;
+  --border-color: #3e3e42;
+  --text-primary: #d4d4d4;
+  --text-muted: #858585;
+  --status-key: #6a6a6a;
+  --tab-inactive: #969696;
+  --tab-active-text: #fff;
+  --tab-bg: #2d2d30;
+  --toolbar-bg: #2d2d30;
+  --btn-bg: #3c3c3c;
+  --btn-border: #555;
+  --btn-color: #ccc;
+  --btn-hover-bg: #4a4a4a;
+  --btn-hover-border: #6a6a6a;
+  --badge-bg: #3e3e42;
+  --badge-color: #ccc;
+  --settings-bg: #2a2a2e;
+  --resize-handle-bg: #3e3e42;
+  --resize-handle-hover: var(--theme-primary);
+  --glass-bg: rgba(30, 30, 30, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.3), inset 0 0 24px rgba(255, 255, 255, 0.03);
+  --glass-blur: 40px;
+}
+
+body[data-theme="light"] {
+  --theme-primary: #0078d4;
+  --theme-secondary: #107c10;
+  --editor-bg: #fff;
+  --panel-bg: #f3f3f3;
+  --border-color: #d0d0d0;
+  --text-primary: #333;
+  --text-muted: #555;
+  --status-key: #888;
+  --tab-inactive: #555;
+  --tab-active-text: #111;
+  --tab-bg: #e8e8e8;
+  --toolbar-bg: #e8e8e8;
+  --btn-bg: #e0e0e0;
+  --btn-border: #bbb;
+  --btn-color: #333;
+  --btn-hover-bg: #d0d0d0;
+  --btn-hover-border: #999;
+  --badge-bg: #d0d0d0;
+  --badge-color: #333;
+  --settings-bg: #fff;
+  --resize-handle-bg: #d0d0d0;
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08), inset 0 0 24px rgba(255, 255, 255, 0.1);
+  --glass-blur: 50px;
+}
+
+body[data-theme="dark"] {
+  --theme-primary: #8e44ad;
+  --theme-secondary: #b366ff;
+  --editor-bg: #1e1e1e;
+  --panel-bg: #252526;
+  --border-color: #4a4a4e;
+  --text-primary: #d4d4d4;
+  --text-muted: #aaa;
+  --status-key: #6a6a6a;
+  --tab-inactive: #969696;
+  --tab-active-text: #fff;
+  --tab-bg: #2d2d30;
+  --toolbar-bg: #2d2d30;
+  --btn-bg: #3c3c3c;
+  --btn-border: #555;
+  --btn-color: #ccc;
+  --btn-hover-bg: #4a4a4a;
+  --btn-hover-border: #6a6a6a;
+  --badge-bg: #3e3e42;
+  --badge-color: #ccc;
+  --settings-bg: #2a2a2e;
+  --resize-handle-bg: #3e3e42;
+  --glass-bg: rgba(30, 30, 30, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.3), inset 0 0 24px rgba(255, 255, 255, 0.03);
+  --glass-blur: 40px;
+}
+
+body[data-theme="darker"] {
+  --theme-primary: #c0392b;
+  --theme-secondary: #ff6b6b;
+  --editor-bg: #0d0d0d;
+  --panel-bg: #111;
+  --border-color: #3a3a3a;
+  --text-primary: #ccc;
+  --text-muted: #aaa;
+  --status-key: #555;
+  --tab-inactive: #777;
+  --tab-active-text: #fff;
+  --tab-bg: #1a1a1a;
+  --toolbar-bg: #1a1a1a;
+  --btn-bg: #2a2a2a;
+  --btn-border: #444;
+  --btn-color: #ccc;
+  --btn-hover-bg: #3a3a3a;
+  --btn-hover-border: #555;
+  --badge-bg: #2a2a2a;
+  --badge-color: #aaa;
+  --settings-bg: #1a1a1a;
+  --resize-handle-bg: #2a2a2a;
+  --glass-bg: rgba(15, 15, 15, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.5), inset 0 0 24px rgba(255, 255, 255, 0.02);
+  --glass-blur: 40px;
+}
+
+/* Фоны для стеклянного режима */
+body.glass-mode[data-theme="light"] {
+  background: #e3ebf5;
+}
+body.glass-mode[data-theme="dark"] {
+  background: #1a1a2e;
+}
+body.glass-mode[data-theme="darker"] {
+  background: #1a0a0a;
+}

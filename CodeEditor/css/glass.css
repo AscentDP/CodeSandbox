@@ -1,0 +1,186 @@
+/* ===== СТЕКЛЯННЫЙ РЕЖИМ ===== */
+
+body.glass-mode[data-theme="light"] {
+  background: #e3ebf5;
+}
+body.glass-mode[data-theme="dark"] {
+  background: #1a1a2e;
+}
+body.glass-mode[data-theme="darker"] {
+  background: #1a0a0a;
+}
+
+body.glass-mode::before,
+body.glass-mode::after {
+  display: none;
+}
+
+/* ===== ХЕДЕР ===== */
+body.glass-mode .header {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+  box-shadow: var(--glass-shadow) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+}
+
+/* ===== СТАТУС-БАР ===== */
+body.glass-mode .status-bar {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+  box-shadow: var(--glass-shadow) !important;
+  border-top: 1px solid var(--glass-border) !important;
+}
+
+/* ===== ПАНЕЛЬ РЕДАКТОРА (полукруг внизу) ===== */
+body.glass-mode .editor-panel {
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid var(--glass-border);
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+
+/* Полукруг */
+body.glass-mode .editor-panel::before {
+  content: "";
+  position: absolute;
+  bottom: -25%;
+  left: 50%;
+  width: calc(1000px * var(--circle-scale, 1));
+  height: calc(500px * var(--circle-scale, 1));
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  filter: blur(300px);
+  z-index: 0;
+  pointer-events: none;
+  background: transparent; /* будет задано динамически */
+
+  /* Начальное состояние (скрыто) */
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+
+  /* Плавные переходы */
+  transition:
+    transform 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    /* пружинистое появление */ opacity 2.5s ease,
+    background 1.8s ease,
+    /* смена цвета */ width 0.3s ease,
+    height 0.3s ease;
+}
+
+/* Видимое состояние круга */
+body.glass-mode .editor-panel.circle-visible::before {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+
+body.glass-mode .editor-panel .panel-tabs,
+body.glass-mode .editor-panel .editor-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== НОМЕРА СТРОК ===== */
+body.glass-mode .line-numbers {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+}
+
+/* ===== ТАБЫ РЕДАКТОРА ===== */
+body.glass-mode .panel-tabs {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(calc(var(--glass-blur) * 1.3)) !important;
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.3)) !important;
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== ОБЛАСТЬ РЕДАКТОРА ===== */
+body.glass-mode .editor-area {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(calc(var(--glass-blur) * 1.2)) !important;
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.2)) !important;
+}
+
+/* ===== КНОПКИ ===== */
+body.glass-mode .btn {
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+}
+body.glass-mode .btn:hover {
+  filter: brightness(1.15);
+}
+
+body.glass-mode .settings-btn {
+  background: var(--theme-primary) !important;
+  border-color: var(--theme-primary) !important;
+  color: #fff !important;
+}
+
+body.glass-mode .theme-option.active,
+body.glass-mode .effect-option.active,
+body.glass-mode .animate-option.active {
+  background: var(--theme-primary) !important;
+  border-color: var(--theme-primary) !important;
+  color: #fff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ===== ПАНЕЛЬ НАСТРОЕК ===== */
+body.glass-mode .settings-panel {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+body.glass-mode .settings-panel,
+body.glass-mode .settings-panel * {
+  color: var(--text-primary);
+}
+body.glass-mode .settings-panel .section-title {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ===== ПРЕВЬЮ (БЕЗ СТЕКЛА) ===== */
+body.glass-mode .preview-panel {
+  background: var(--editor-bg);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none;
+  box-shadow: none;
+}
+body.glass-mode .preview-toolbar {
+  background: var(--toolbar-bg);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* ===== ПУЛЬСАЦИЯ ===== */
+@keyframes gentlePulse {
+  0% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.8;
+  }
+}
+
+body.glass-mode.animate-circle .editor-panel::before {
+  animation: gentlePulse 6s ease-in-out infinite;
+}
