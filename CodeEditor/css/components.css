@@ -27,7 +27,7 @@
   border-color: var(--theme-primary);
   color: #fff;
   font-weight: 500;
-  padding: 4px 16px;
+  padding: 4px 12px;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
@@ -35,6 +35,11 @@
   background: var(--theme-secondary);
   border-color: var(--theme-secondary);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.icon-gear {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
 
 /* ---------- Панель настроек ---------- */
@@ -84,7 +89,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  width: 120px;
+  width: 130px;
   flex-shrink: 0;
   border-left: 1px solid var(--border-color);
   padding-left: 12px;
@@ -112,6 +117,11 @@
   background: var(--theme-primary);
   color: #fff;
   border-color: var(--theme-primary);
+}
+.icon-tab {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 .settings-section {
@@ -207,6 +217,14 @@
   box-shadow: 0 0 0 2px var(--theme-primary);
 }
 
+/* Иконки в кнопках тем */
+.icon-theme {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-right: 6px;
+}
+
 /* ---------- Эффекты ---------- */
 .effect-options {
   display: flex;
@@ -237,6 +255,12 @@ body[data-theme="light"] .effect-option:hover {
   background: var(--theme-primary);
   border-color: var(--theme-primary);
   color: #fff;
+}
+.icon-effect {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-right: 4px;
 }
 
 /* ---------- Шрифт ---------- */
@@ -436,6 +460,46 @@ body[data-theme="light"] .effect-option:hover {
   color: #1e1e1e;
 }
 
+/* ---------- Индикатор несохранённых изменений ---------- */
+/* Неактивная вкладка с несохранённым кодом получает цвет текста и бейджа своего языка, но с прозрачностью 0.3 */
+.panel-tab.unsaved:not(.active),
+.tab-main.unsaved:not(.active) {
+  opacity: 0.3;
+}
+/* Цвета текста */
+.panel-tab.unsaved:not(.active)[data-tab="html"],
+.tab-main.unsaved:not(.active)[data-tab="html"] {
+  color: #ff8c00;
+}
+.tab-main.unsaved:not(.active)[data-tab="css"],
+.tab-main.unsaved:not(.active)[data-tab="scss"] {
+  color: var(--theme-primary);
+}
+.panel-tab.unsaved:not(.active)[data-tab="js"] {
+  color: #ffd700;
+}
+/* Цвета бейджа */
+.panel-tab.unsaved:not(.active)[data-tab="html"] .badge,
+.tab-main.unsaved:not(.active)[data-tab="html"] .badge {
+  background: #ff8c00;
+  color: #1e1e1e;
+}
+.tab-main.unsaved:not(.active)[data-tab="css"] .badge,
+.tab-main.unsaved:not(.active)[data-tab="scss"] .badge {
+  background: var(--theme-primary);
+  color: #fff;
+}
+.panel-tab.unsaved:not(.active)[data-tab="js"] .badge {
+  background: #ffd700;
+  color: #1e1e1e;
+}
+
+/* Активная вкладка всегда отображается полноценно, без прозрачности */
+.panel-tab.unsaved.active,
+.tab-main.unsaved.active {
+  opacity: 1;
+}
+
 /* ---------- Переключатель CSS/SCSS ---------- */
 .tab-wrapper {
   position: relative;
@@ -450,10 +514,10 @@ body[data-theme="light"] .effect-option:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
+  width: 28px;
   height: 100%;
   margin-left: -4px;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   color: var(--tab-inactive);
   cursor: pointer;
   transition:
@@ -461,7 +525,7 @@ body[data-theme="light"] .effect-option:hover {
     transform 0.2s;
   user-select: none;
 }
-.tab-arrow:hover {
+.tab-wrapper:hover .tab-arrow {
   color: var(--tab-active-text);
 }
 .tab-arrow.open {
@@ -470,13 +534,11 @@ body[data-theme="light"] .effect-option:hover {
 
 .tab-dropdown {
   position: fixed;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
   background: var(--panel-bg);
-  border: 1px solid var(--panel-bg);
-  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 0 0 6px 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding: 4px 0;
   z-index: 99999;
   opacity: 0;
   visibility: hidden;
@@ -499,7 +561,6 @@ body[data-theme="light"] .effect-option:hover {
   font-size: 0.82rem;
   background: transparent;
   border: none;
-  border-radius: 12px;
   color: var(--text-primary);
   text-align: left;
   cursor: pointer;
@@ -530,15 +591,16 @@ body[data-theme="light"] .effect-option:hover {
   font-family: "Consolas", "Courier New", monospace;
   font-size: var(--editor-font-size, 14px);
   line-height: 1.6;
-  padding: 16px 8px 16px 8px;
+  padding: 16px 4px 16px 4px; /* уменьшены боковые отступы */
   text-align: right;
   user-select: none;
   overflow: hidden;
   white-space: pre;
   border-right: 1px solid #333;
-  min-width: 56px;
-  width: 56px;
+  min-width: 40px; /* было 56px */
+  width: 40px; /* фиксированная ширина */
   box-sizing: border-box;
+  cursor: pointer;
 }
 .editor-area {
   flex: 1;
@@ -611,7 +673,7 @@ body[data-theme="light"] .effect-option:hover {
   color: #fff;
 }
 
-/* ---------- Цветовые декораторы (невидимые) ---------- */
+/* ---------- Цветовые декораторы ---------- */
 #colorDecorators {
   position: absolute;
   top: 0;
@@ -623,15 +685,13 @@ body[data-theme="light"] .effect-option:hover {
 }
 .color-decorator {
   position: absolute;
-  width: 14px;
-  height: 14px;
   background: transparent;
   border: none;
   cursor: pointer;
   pointer-events: auto;
 }
 
-/* ---------- Всплывающая палитра цветов (компактная, с кастомным пикером) ---------- */
+/* ---------- Всплывающая палитра цветов ---------- */
 .color-picker-popup {
   position: fixed;
   background: var(--panel-bg, #252526);
@@ -667,19 +727,44 @@ body[data-theme="light"] .effect-option:hover {
   transform: translateY(0) scale(1);
   pointer-events: auto;
 }
-
 .color-picker-body {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
-
-/* Ползунок прозрачности */
-.color-picker-alpha {
+.color-hex-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.color-hex-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.color-hex-input {
   width: 100%;
+  height: 28px;
+  background: var(--btn-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  text-align: center;
+  font-family: "Consolas", "Courier New", monospace;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  padding: 2px 8px;
+}
+.color-hex-input:focus {
+  outline: 2px solid var(--theme-primary);
+  outline-offset: 2px;
+  border-color: var(--theme-primary);
+}
+.color-picker-alpha {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
 }
 .color-picker-alpha label {
   font-size: 0.75rem;
@@ -715,8 +800,6 @@ body[data-theme="light"] .effect-option:hover {
   text-align: right;
   font-weight: 500;
 }
-
-/* Кастомный пикер */
 .color-picker-custom {
   display: flex;
   flex-direction: column;
@@ -725,6 +808,7 @@ body[data-theme="light"] .effect-option:hover {
 }
 #colorCanvas {
   border-radius: 6px;
+  border: 1px solid var(--border-color);
   cursor: crosshair;
   width: 100%;
   height: auto;
@@ -762,8 +846,41 @@ body[data-theme="light"] .effect-option:hover {
   border: 2px solid #fff;
   cursor: pointer;
 }
-
-/* Превью цвета */
+.rgb-inputs {
+  display: flex;
+  gap: 8px;
+}
+.rgb-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+.rgb-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+.rgb-input {
+  width: 100%;
+  height: 28px;
+  background: var(--btn-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  text-align: center;
+  font-family: "Consolas", "Courier New", monospace;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  padding: 2px 4px;
+}
+.rgb-input:focus {
+  outline: 2px solid var(--theme-primary);
+  outline-offset: 2px;
+  border-color: var(--theme-primary);
+}
 .color-picker-preview {
   height: 28px;
   border-radius: 6px;
@@ -771,6 +888,52 @@ body[data-theme="light"] .effect-option:hover {
   background: #fff;
   transition: background 0.2s;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ---------- Подсветка активной строки ---------- */
+.active-line-highlight {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: calc(1em * 1.6);
+  background: rgba(128, 128, 128, 0.1);
+  pointer-events: none;
+  z-index: 5;
+  transition: top 0.1s ease;
+}
+body[data-theme="light"] .active-line-highlight {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* ---------- Кликабельные номера строк ---------- */
+
+/* ---------- Мини-карта ---------- */
+.minimap-container {
+  position: relative;
+  width: 80px;
+  background: var(--editor-bg);
+  border-left: 1px solid var(--border-color);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+}
+#minimapCanvas {
+  display: block;
+  width: 100%;
+  image-rendering: pixelated;
+}
+.minimap-viewport {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: rgba(128, 128, 128, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  transition:
+    top 0.1s ease,
+    height 0.1s ease;
 }
 
 /* ---------- Медиа-запросы ---------- */

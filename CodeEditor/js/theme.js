@@ -19,6 +19,9 @@ App.applyCustomColor = function (themeName, hexColor) {
   var secondary = App.lightenColor(hexColor, 60);
   document.body.style.setProperty("--theme-primary", hexColor);
   document.body.style.setProperty("--theme-secondary", secondary);
+  // Устанавливаем светлый вариант для градиентов/свечений (10% яркости)
+  var light = App.hexToRgba(hexColor, 0.15);
+  document.body.style.setProperty("--theme-primary-light", light);
   localStorage.setItem("codeplayground-color-" + themeName, hexColor);
   App.state.userColors[themeName] = hexColor;
   var swatches = document.querySelectorAll(".color-swatch");
@@ -35,8 +38,8 @@ App.applyCustomColor = function (themeName, hexColor) {
   App.updateResizeHandleHover(themeName, hexColor);
 };
 
-/** Создаёт/обновляет <style> с градиентом для полукруга */
 App.updateGlassCircle = function (themeName, hexColor) {
+  // Для полукруга – всё ещё динамические стили (background задаётся через JS)
   var styleId = "glass-circle-" + themeName;
   var styleEl = document.getElementById(styleId);
   if (!styleEl) {
@@ -49,7 +52,7 @@ App.updateGlassCircle = function (themeName, hexColor) {
   styleEl.textContent =
     'body.glass-mode[data-theme="' +
     themeName +
-    '"] .editor-panel::before {' +
+    '"] .editor-panel::before { ' +
     "background: radial-gradient(circle, " +
     rgba +
     " 0%, " +

@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Code Sandbox</title>
+    <title>Песочница кода</title>
 
+    <!-- Prism.js -->
     <link
       id="prism-theme"
       href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"
@@ -31,6 +32,7 @@
       defer
     ></script>
 
+    <!-- Стили -->
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/layout.css" />
@@ -38,17 +40,30 @@
     <link rel="stylesheet" href="css/glass.css" />
   </head>
   <body data-theme="dark">
+    <!-- Шапка -->
     <header class="header">
       <h1><span>☳</span>Code<span>Sandbox</span></h1>
       <div class="header-actions">
         <div class="settings-wrapper">
-          <button id="settingsBtn" class="btn settings-btn">
-            ⚙️ Настройки
+          <!-- Кнопка настроек с SVG-шестерёнкой -->
+          <button id="settingsBtn" class="btn settings-btn" title="Настройки">
+            <svg
+              class="icon-gear"
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="currentColor"
+            >
+              <path
+                d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1 0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66Z"
+              />
+            </svg>
           </button>
           <div id="settingsPanel" class="settings-panel" style="display: none">
             <div class="settings-header"><h3>Настройки</h3></div>
             <div class="settings-body">
               <div class="settings-content" id="settingsContent">
+                <!-- Вкладка "Тема" -->
                 <div
                   class="settings-tab-content active"
                   data-tab-content="theme"
@@ -56,9 +71,22 @@
                   <div class="settings-section">
                     <h4 class="section-title">Тема оформления</h4>
                     <div class="theme-options">
+                      <!-- те же опции тем -->
                       <div class="theme-option-wrapper">
                         <button class="theme-option" data-theme="light">
-                          ☀️ Светлая <span class="theme-arrow">▸</span>
+                          <svg
+                            class="icon-theme"
+                            viewBox="0 0 24 24"
+                            width="18"
+                            height="18"
+                            fill="currentColor"
+                          >
+                            <path
+                              d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0-5a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm0 16a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1zM5.6 5.6a1 1 0 0 1 1.4 0l1.4 1.4a1 1 0 1 1-1.4 1.4L5.6 7a1 1 0 0 1 0-1.4zm11.3 11.3a1 1 0 0 1 1.4 0l1.4 1.4a1 1 0 0 1-1.4 1.4l-1.4-1.4a1 1 0 0 1 0-1.4zM2 11a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1zm16 0a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2h-2a1 1 0 0 1-1-1zM5.6 18.4a1 1 0 0 1 0-1.4l1.4-1.4a1 1 0 1 1 1.4 1.4L7 18.4a1 1 0 0 1-1.4 0zm11.3-11.3a1 1 0 0 1 0-1.4l1.4-1.4a1 1 0 0 1 1.4 1.4L18.4 7a1 1 0 0 1-1.4 0z"
+                            />
+                          </svg>
+                          Светлая
+                          <span class="theme-arrow">▸</span>
                         </button>
                         <div class="color-palette" data-theme="light">
                           <button
@@ -113,7 +141,19 @@
                       </div>
                       <div class="theme-option-wrapper">
                         <button class="theme-option active" data-theme="dark">
-                          🌙 Тёмная <span class="theme-arrow">▸</span>
+                          <svg
+                            class="icon-theme"
+                            viewBox="0 0 24 24"
+                            width="18"
+                            height="18"
+                            fill="currentColor"
+                          >
+                            <path
+                              d="M21.75 14.5A9.75 9.75 0 0 1 9.5 2.25 9.75 9.75 0 0 0 2.25 12a9.75 9.75 0 0 0 9.75 9.75 9.75 9.75 0 0 0 9.75-7.25z"
+                            />
+                          </svg>
+                          Тёмная
+                          <span class="theme-arrow">▸</span>
                         </button>
                         <div class="color-palette" data-theme="dark">
                           <button
@@ -168,7 +208,25 @@
                       </div>
                       <div class="theme-option-wrapper">
                         <button class="theme-option" data-theme="darker">
-                          ⬛ Очень тёмная <span class="theme-arrow">▸</span>
+                          <svg
+                            class="icon-theme"
+                            viewBox="0 0 24 24"
+                            width="18"
+                            height="18"
+                            fill="currentColor"
+                          >
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                            />
+                            <path d="M12 2a10 10 0 0 1 0 20V2z" />
+                          </svg>
+                          Очень тёмная
+                          <span class="theme-arrow">▸</span>
                         </button>
                         <div class="color-palette" data-theme="darker">
                           <button
@@ -224,12 +282,24 @@
                     </div>
                   </div>
                 </div>
+                <!-- Вкладка "Эффекты" -->
                 <div class="settings-tab-content" data-tab-content="effects">
                   <div class="settings-section">
                     <h4 class="section-title">Стеклянный эффект</h4>
                     <div class="effect-options">
                       <button id="glassToggleBtn" class="effect-option">
-                        🧊 Стеклянный эффект
+                        <svg
+                          class="icon-effect"
+                          viewBox="0 0 24 24"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                        >
+                          <path
+                            d="M3 3h18v18H3V3zm2 2v14h14V5H5zm2 2h10v6H7V7zm0 8h10v2H7v-2z"
+                          />
+                        </svg>
+                        Стеклянный эффект
                       </button>
                     </div>
                   </div>
@@ -238,15 +308,40 @@
                     id="animationSection"
                     style="display: none"
                   >
-                    <h4 class="section-title">Анимация круга</h4>
+                    <h4 class="section-title">Вариант оформления</h4>
                     <div class="effect-options">
-                      <button id="animateToggleBtn" class="effect-option">
-                        ✨ Анимация круга
+                      <button
+                        id="styleSemicircleBtn"
+                        class="effect-option active"
+                      >
+                        🌓 Полукруг
+                      </button>
+                      <button id="styleGradientBtn" class="effect-option">
+                        🌈 Градиент
+                      </button>
+                      <button id="styleGlowBtn" class="effect-option">
+                        ✨ Сияние
                       </button>
                     </div>
                   </div>
-                  <div class="settings-section">
-                    <h4 class="section-title">Размер круга</h4>
+                  <div
+                    class="settings-section"
+                    id="animationToggleSection"
+                    style="display: none"
+                  >
+                    <h4 class="section-title">Анимация</h4>
+                    <div class="effect-options">
+                      <button id="animateToggleBtn" class="effect-option">
+                        🌀 Анимация
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="settings-section"
+                    id="circleSizeSection"
+                    style="display: none"
+                  >
+                    <h4 class="section-title">Размер эффекта</h4>
                     <div class="circle-size-control">
                       <input
                         type="range"
@@ -262,6 +357,7 @@
                     </div>
                   </div>
                 </div>
+                <!-- Вкладка "Редактор" -->
                 <div class="settings-tab-content" data-tab-content="editor">
                   <div class="settings-section">
                     <h4 class="section-title">Размер шрифта</h4>
@@ -307,15 +403,49 @@
                   </div>
                 </div>
               </div>
+              <!-- Вкладки справа с SVG-иконками -->
               <div class="settings-tabs" id="settingsTabs">
                 <button class="settings-tab active" data-tab="theme">
-                  🎨 Тема
+                  <svg
+                    class="icon-tab"
+                    viewBox="0 0 24 24"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                    />
+                  </svg>
+                  Тема
                 </button>
                 <button class="settings-tab" data-tab="effects">
-                  ✨ Эффекты
+                  <svg
+                    class="icon-tab"
+                    viewBox="0 0 24 24"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"
+                    />
+                  </svg>
+                  Эффекты
                 </button>
                 <button class="settings-tab" data-tab="editor">
-                  📝 Редактор
+                  <svg
+                    class="icon-tab"
+                    viewBox="0 0 24 24"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                    />
+                  </svg>
+                  Редактор
                 </button>
               </div>
             </div>
@@ -324,6 +454,7 @@
       </div>
     </header>
 
+    <!-- Основной контейнер -->
     <div class="app" id="appContainer">
       <div class="editor-panel" id="editorPanel">
         <div class="panel-tabs" id="tabContainer">
@@ -361,6 +492,10 @@
               class="autocomplete-box"
               style="display: none"
             ></div>
+          </div>
+          <div class="minimap-container" id="minimapContainer">
+            <canvas id="minimapCanvas"></canvas>
+            <div id="minimapViewport" class="minimap-viewport"></div>
           </div>
         </div>
       </div>
@@ -406,13 +541,20 @@
     <!-- Шаблон цветовой палитры (кастомный ColorPicker) -->
     <div id="colorPickerPopup" class="color-picker-popup" style="display: none">
       <div class="color-picker-body">
-        <!-- Ползунок прозрачности -->
+        <div class="color-hex-input-wrapper">
+          <label class="color-hex-label">HEX / RGBA</label>
+          <input
+            type="text"
+            id="colorHexInput"
+            class="color-hex-input"
+            placeholder="#ff0000 или rgba(255,0,0,1)"
+          />
+        </div>
         <div class="color-picker-alpha">
           <label>Прозрачность</label>
           <input type="range" id="alphaSlider" min="0" max="100" value="100" />
           <span id="alphaValue">100%</span>
         </div>
-        <!-- Кастомный пикер -->
         <div class="color-picker-custom">
           <canvas id="colorCanvas" width="200" height="150"></canvas>
           <div class="hue-slider-wrapper">
@@ -426,7 +568,20 @@
             />
           </div>
         </div>
-        <!-- Превью текущего цвета -->
+        <div class="rgb-inputs">
+          <div class="rgb-field">
+            <label class="rgb-label" style="color: #ff4d4d">R</label>
+            <input type="text" id="rgbR" class="rgb-input" maxlength="3" />
+          </div>
+          <div class="rgb-field">
+            <label class="rgb-label" style="color: #4caf50">G</label>
+            <input type="text" id="rgbG" class="rgb-input" maxlength="3" />
+          </div>
+          <div class="rgb-field">
+            <label class="rgb-label" style="color: #42a5f5">B</label>
+            <input type="text" id="rgbB" class="rgb-input" maxlength="3" />
+          </div>
+        </div>
         <div class="color-picker-preview" id="colorPreview"></div>
       </div>
     </div>

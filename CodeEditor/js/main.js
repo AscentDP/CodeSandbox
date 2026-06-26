@@ -44,8 +44,29 @@ window.App = window.App || {};
     },
     customFontName: null,
     customFontBlobUrl: null,
+    unsaved: { html: false, css: false, scss: false, js: false },
   };
   if (!App.themes[App.state.currentTheme]) App.state.currentTheme = "dark";
+
+  function markUnsaved(tabType) {
+    App.state.unsaved[tabType] = true;
+    updateUnsavedIndicators();
+  }
+  function markSavedAll() {
+    for (var t in App.state.unsaved) App.state.unsaved[t] = false;
+    updateUnsavedIndicators();
+  }
+  function updateUnsavedIndicators() {
+    var tabs = document.querySelectorAll(".panel-tab, .tab-main");
+    tabs.forEach(function (tab) {
+      var type = tab.getAttribute("data-tab");
+      if (type && App.state.unsaved[type]) {
+        tab.classList.add("unsaved");
+      } else {
+        tab.classList.remove("unsaved");
+      }
+    });
+  }
 
   // ===== Переключение CSS / SCSS =====
   var cssTabMain = document.querySelector('.tab-main[data-tab="css"]');
@@ -71,6 +92,15 @@ window.App = window.App || {};
     var labelSpan = cssTabMain.querySelector(".tab-label");
     if (labelSpan) labelSpan.textContent = lang === "css" ? "CSS" : "SCSS";
     App.state.activeStyleTab = lang;
+    var oldLang =
+      App.state.currentTabType === "css"
+        ? "css"
+        : App.state.currentTabType === "scss"
+          ? "scss"
+          : null;
+    if (oldLang && oldLang !== lang) {
+      App.state.unsaved[lang] = App.state.unsaved[oldLang];
+    }
     if (
       App.state.currentTabType === "css" ||
       App.state.currentTabType === "scss"
@@ -79,6 +109,7 @@ window.App = window.App || {};
     } else {
       App.state.currentTabType = lang;
     }
+    updateUnsavedIndicators();
   }
 
   toggleArrow.addEventListener("click", function (e) {
@@ -148,6 +179,7 @@ window.App = window.App || {};
       App.pushHistory();
       App.elements.editor._lastHistoryPush = Date.now();
     }
+    markUnsaved(App.state.currentTabType);
     var word = App.getCurrentWord();
     var ctx = App.getContext();
     if (
@@ -161,9 +193,14 @@ window.App = window.App || {};
   });
 
   App.elements.editor.addEventListener("keydown", function (e) {
-    if (e.ctrlKey && e.key === "z") {
+    if (e.ctrlKey && e.code === "KeyZ") {
       e.preventDefault();
       App.undo();
+      return;
+    }
+    if (e.ctrlKey && e.code === "Slash") {
+      e.preventDefault();
+      App.toggleComment();
       return;
     }
     if (App.elements.autocompleteBox.style.display === "block") {
@@ -182,9 +219,42 @@ window.App = window.App || {};
     }
   });
 
+  App.elements.editor.addEventListener("click", App.updateActiveLineHighlight);
+  App.elements.editor.addEventListener("keyup", function (e) {
+    if (
+      e.key.startsWith("Arrow") ||
+      e.key === "Home" ||
+      e.key === "End" ||
+      e.key === "PageUp" ||
+      e.key === "PageDown"
+    ) {
+      App.updateActiveLineHighlight();
+    }
+  });
   App.elements.editor.addEventListener("scroll", function () {
     App.syncScroll();
     App.updateColorDecorators();
+    App.updateActiveLineHighlight();
+    App.updateMinimapViewport();
+  });
+
+  // ===== Кликабельные номера строк =====
+  App.elements.lineNumbers.addEventListener("click", function (e) {
+    var rect = this.getBoundingClientRect();
+    var y = e.clientY - rect.top + this.scrollTop;
+    var lineHeight = parseFloat(getComputedStyle(this).lineHeight);
+    var lineIndex = Math.floor(y / lineHeight);
+    if (lineIndex < 0) return;
+    var editor = App.elements.editor;
+    var lines = editor.value.split("\n");
+    if (lineIndex >= lines.length) return;
+    var pos = 0;
+    for (var i = 0; i < lineIndex; i++) {
+      pos += lines[i].length + 1;
+    }
+    editor.focus();
+    editor.setSelectionRange(pos, pos);
+    App.updateActiveLineHighlight();
   });
 
   App.elements.refreshBtn.addEventListener("click", function () {
@@ -213,7 +283,14 @@ window.App = window.App || {};
       if (e.ctrlKey && e.key === "s") {
         e.preventDefault();
         e.stopImmediatePropagation();
-        App.saveAll();
+        try {
+          App.saveAll();
+          markSavedAll();
+        } catch (err) {
+          console.error(err);
+          App.elements.statusText.textContent = "⚠ ошибка сохранения";
+          App.elements.statusText.style.color = "#f48771";
+        }
       }
     },
     true,
@@ -314,24 +391,86 @@ window.App = window.App || {};
     });
   }
 
-  // ===== Анимация круга =====
+  // ===== Варианты оформления и анимация =====
   var animationSection = document.getElementById("animationSection");
+  var animationToggleSection = document.getElementById(
+    "animationToggleSection",
+  );
+  var circleSizeSection = document.getElementById("circleSizeSection");
   var animateToggleBtn = document.getElementById("animateToggleBtn");
   var animationEnabled =
     localStorage.getItem("codeplayground-animation") === "true";
+  var activeStyle =
+    localStorage.getItem("codeplayground-effect-style") || "semicircle";
+
+  var styleButtons = {
+    semicircle: document.getElementById("styleSemicircleBtn"),
+    gradient: document.getElementById("styleGradientBtn"),
+    glow: document.getElementById("styleGlowBtn"),
+  };
+
+  function updateStyleUI() {
+    // Удаляем все классы стилей
+    document.body.classList.remove(
+      "style-semicircle",
+      "style-gradient",
+      "style-glow",
+    );
+    // Добавляем текущий
+    document.body.classList.add("style-" + activeStyle);
+
+    // Показываем/скрываем нужные секции
+    if (activeStyle === "semicircle" || activeStyle === "glow") {
+      circleSizeSection.style.display = "block";
+    } else {
+      circleSizeSection.style.display = "none";
+    }
+
+    // Обновляем активные кнопки
+    for (var key in styleButtons) {
+      if (styleButtons[key]) {
+        styleButtons[key].classList.toggle("active", key === activeStyle);
+      }
+    }
+  }
+
+  // Привязка кнопок стилей
+  for (var key in styleButtons) {
+    if (styleButtons[key]) {
+      styleButtons[key].addEventListener("click", function (e) {
+        var newStyle = e.target.id
+          .replace("style", "")
+          .replace("Btn", "")
+          .toLowerCase();
+        if (newStyle === activeStyle) return;
+        activeStyle = newStyle;
+        localStorage.setItem("codeplayground-effect-style", activeStyle);
+        updateStyleUI();
+        // Пересоздаём круг/эффект, если стекло включено
+        if (App.state.glassMode) {
+          App.elements.editorPanel.classList.remove("circle-visible");
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              App.elements.editorPanel.classList.add("circle-visible");
+            });
+          });
+        }
+      });
+    }
+  }
 
   function updateAnimationUI() {
     if (App.state.glassMode) {
       animationSection.style.display = "block";
+      animationToggleSection.style.display = "block";
+      updateStyleUI();
       if (animateToggleBtn)
         animateToggleBtn.classList.toggle("active", animationEnabled);
-
+      document.body.classList.toggle("animate-circle", animationEnabled);
       if (!App.elements.editorPanel.classList.contains("circle-visible")) {
-        // Два кадра для гарантированного применения начального состояния
         requestAnimationFrame(function () {
           requestAnimationFrame(function () {
             App.elements.editorPanel.classList.add("circle-visible");
-            // Пульсацию включаем после завершения анимации появления (2.5s)
             clearTimeout(App._circleAppearTimer);
             App._circleAppearTimer = setTimeout(function () {
               if (animationEnabled)
@@ -339,11 +478,11 @@ window.App = window.App || {};
             }, 2500);
           });
         });
-      } else {
-        document.body.classList.toggle("animate-circle", animationEnabled);
       }
     } else {
       animationSection.style.display = "none";
+      animationToggleSection.style.display = "none";
+      circleSizeSection.style.display = "none";
       App.elements.editorPanel.classList.remove("circle-visible");
       document.body.classList.remove("animate-circle");
       if (animateToggleBtn) animateToggleBtn.classList.remove("active");
@@ -363,6 +502,9 @@ window.App = window.App || {};
     originalToggleGlass(force);
     updateAnimationUI();
   };
+
+  // Инициализация при запуске
+  updateStyleUI();
 
   App.elements.resizeHandle.addEventListener("mousedown", App.onMouseDown);
   window.addEventListener("resize", function () {
@@ -390,18 +532,22 @@ window.App = window.App || {};
         cursor: App.elements.editor.selectionStart,
       },
     ];
-
     var currentStyleTab = cssTabMain.getAttribute("data-tab");
     App.state.activeStyleTab = currentStyleTab === "scss" ? "scss" : "css";
-
     updateAnimationUI();
     App.initColorPickerEvents();
-
     App.updateEditorStats();
     App.updateHighlight();
-    App.updateColorDecorators();
+    setTimeout(function () {
+      App.updateHighlight();
+      App.updateColorDecorators();
+      App.updateActiveLineHighlight();
+      App.renderMinimap();
+    }, 10);
+    App.updateActiveLineHighlight();
     App.updatePreview();
     App.syncScroll();
+    markSavedAll();
   };
 
   App.init();

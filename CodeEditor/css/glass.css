@@ -33,7 +33,7 @@ body.glass-mode .status-bar {
   border-top: 1px solid var(--glass-border) !important;
 }
 
-/* ===== ПАНЕЛЬ РЕДАКТОРА (полукруг внизу) ===== */
+/* ===== ПАНЕЛЬ РЕДАКТОРА (общие свойства) ===== */
 body.glass-mode .editor-panel {
   position: relative;
   overflow: hidden;
@@ -44,39 +44,157 @@ body.glass-mode .editor-panel {
   box-shadow: var(--glass-shadow) !important;
 }
 
-/* Полукруг */
+/* ----- ВАРИАНТ 1: ПОЛУКРУГ ----- */
 body.glass-mode .editor-panel::before {
   content: "";
   position: absolute;
-  bottom: -25%;
+  bottom: -20%;
   left: 50%;
-  width: calc(1000px * var(--circle-scale, 1));
-  height: calc(500px * var(--circle-scale, 1));
-  border-radius: 0 0 50% 50% / 0 0 100% 100%;
-  filter: blur(300px);
-  z-index: 0;
-  pointer-events: none;
-  background: transparent; /* будет задано динамически */
-
-  /* Начальное состояние (скрыто) */
   transform: translateX(-50%) scale(0);
   opacity: 0;
-
-  /* Плавные переходы */
+  width: calc(800px * var(--circle-scale, 1));
+  height: calc(400px * var(--circle-scale, 1));
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  filter: blur(200px);
+  z-index: 0;
+  pointer-events: none;
+  background: transparent;
   transition:
     transform 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-    /* пружинистое появление */ opacity 2.5s ease,
+    opacity 2.5s ease,
     background 1.8s ease,
-    /* смена цвета */ width 0.3s ease,
+    width 0.3s ease,
     height 0.3s ease;
 }
 
-/* Видимое состояние круга */
+/* Появление полукруга */
 body.glass-mode .editor-panel.circle-visible::before {
   transform: translateX(-50%) scale(1);
   opacity: 1;
 }
 
+/* Анимация пульсации полукруга */
+@keyframes gentlePulse {
+  0% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.8;
+  }
+}
+body.glass-mode.animate-circle .editor-panel::before {
+  animation: gentlePulse 6s ease-in-out infinite;
+}
+
+/* ----- ВАРИАНТ 2: ГРАДИЕНТ ----- */
+body.glass-mode.bg-gradient .editor-panel::before {
+  /* скрываем полукруг, заменяем градиентом */
+  content: none;
+}
+
+/* Добавляем градиентный фон через отдельный псевдоэлемент (или переопределим ::before) */
+body.glass-mode.bg-gradient .editor-panel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    var(--theme-primary-light, rgba(58, 142, 238, 0.15)) 0%,
+    transparent 50%,
+    var(--theme-primary-light, rgba(58, 142, 238, 0.08)) 100%
+  );
+  z-index: 0;
+  pointer-events: none;
+  transition: background 1.8s ease;
+}
+
+/* Анимация градиента (медленное вращение и «дыхание») */
+@keyframes gradientFlow {
+  0% {
+    background: linear-gradient(
+      135deg,
+      var(--theme-primary-light, rgba(58, 142, 238, 0.15)) 0%,
+      transparent 50%,
+      var(--theme-primary-light, rgba(58, 142, 238, 0.08)) 100%
+    );
+  }
+  50% {
+    background: linear-gradient(
+      315deg,
+      var(--theme-primary-light, rgba(58, 142, 238, 0.12)) 0%,
+      transparent 60%,
+      var(--theme-primary-light, rgba(58, 142, 238, 0.05)) 100%
+    );
+  }
+  100% {
+    background: linear-gradient(
+      135deg,
+      var(--theme-primary-light, rgba(58, 142, 238, 0.15)) 0%,
+      transparent 50%,
+      var(--theme-primary-light, rgba(58, 142, 238, 0.08)) 100%
+    );
+  }
+}
+body.glass-mode.bg-gradient.animate-circle .editor-panel::after {
+  animation: gradientFlow 12s ease-in-out infinite;
+}
+
+/* ----- ВАРИАНТ 3: СВЕЧЕНИЕ ----- */
+body.glass-mode.bg-glow .editor-panel::before {
+  content: none;
+}
+body.glass-mode.bg-glow .editor-panel::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(500px * var(--circle-scale, 1));
+  height: calc(500px * var(--circle-scale, 1));
+  background: radial-gradient(
+    circle,
+    var(--theme-primary-light, rgba(58, 142, 238, 0.25)) 0%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 2.5s ease,
+    background 1.8s ease;
+}
+body.glass-mode.bg-glow .editor-panel.circle-visible::after {
+  opacity: 1;
+}
+@keyframes glowPulse {
+  0% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+  100% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+body.glass-mode.bg-glow.animate-circle .editor-panel::after {
+  animation: glowPulse 8s ease-in-out infinite;
+}
+
+/* Чтобы градиент и свечение были над табами и редактором */
 body.glass-mode .editor-panel .panel-tabs,
 body.glass-mode .editor-panel .editor-wrapper {
   position: relative;
@@ -163,24 +281,4 @@ body.glass-mode .preview-toolbar {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   border-bottom: 1px solid var(--border-color);
-}
-
-/* ===== ПУЛЬСАЦИЯ ===== */
-@keyframes gentlePulse {
-  0% {
-    transform: translateX(-50%) scale(1);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translateX(-50%) scale(1.2);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-50%) scale(1);
-    opacity: 0.8;
-  }
-}
-
-body.glass-mode.animate-circle .editor-panel::before {
-  animation: gentlePulse 6s ease-in-out infinite;
 }
